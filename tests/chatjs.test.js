@@ -1,7 +1,7 @@
 // const request = require('supertest')
 // const express = require('express')
 const { expect } = require("chai")
-const scriptjs = require("../src/script")
+const scriptjs = require("../src/utils/functions")
 
 // const app = new express()
 // app.use('/', router)
