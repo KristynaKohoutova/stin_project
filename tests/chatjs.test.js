@@ -64,14 +64,14 @@ describe('Behavior of parseFileData function', () => {
 })
 
 
-describe('Behavior of readFromHistFile function', () => {
-    var expectedDataSet = "24.04.2022|EUR|24,320\r\n\
-25.04.2022|EUR|24,420\r\n"
+// describe('Behavior of readFromHistFile function', () => {
+//     var expectedDataSet = "24.04.2022|EUR|24,320\r\n\
+// 25.04.2022|EUR|24,420\r\n"
 
-    test('Testing readFromHistFile', () => {
-        expect(scriptjs.readFromHistFile('./tests/history.txt')).to.deep.equal(expectedDataSet)
-    })
-})
+//     test('Testing readFromHistFile', () => {
+//         expect(scriptjs.readFromHistFile('./tests/history.txt')).to.deep.equal(expectedDataSet)
+//     })
+// })
 
 
 describe('Behavior of parseHistFileData function', () => {
