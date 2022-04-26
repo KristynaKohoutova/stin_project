@@ -66,20 +66,45 @@ button:disabled {
     flex-direction: column;
     max-height: 100vh;
 }
-.chat__messages {
+
+table, th, td{
+    border: 1px solid black;
+}
+table{
+    border-collapse: collapse;
+    width: 30%;
+   
+}
+td{
+    padding-left: 5px;
+    padding-right: 10px;
+}
+
+#messages{
+    display: flex;
+    
+    flex-wrap: nowrap;
+    flex-direction: column;
+    /* align-self: flex-start; */
+    gap: 16px;
     flex-grow: 1;
     padding: 24px 24px 0 24px;
     overflow-y: scroll;
+
 }
-
-
-
+.message.me{
+    align-self: flex-end;
+    background-color: #a3c1d5;
+}
+.message.bot{
+    align-self: flex-start; 
+}
 .message {
-    margin-bottom: 16px;
-    background-color: #c6c5b9;
+    background-color: #d5d5d4;
     padding: 10px;
-    width: auto;   
-    max-width: 50%;
+    /* width: auto; */
+    align-self: flex-start; 
+    display: block;
     border-radius: 15px;
 }
 .message__name {

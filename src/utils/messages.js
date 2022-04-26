@@ -1,6 +1,6 @@
 const generateMessage = (text, messageType) => {
     return{
-        text,
+        message: text,
         createdAt: new Date().getTime(),
         messageType
     }
