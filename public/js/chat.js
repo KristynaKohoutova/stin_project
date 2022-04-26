@@ -1,5 +1,3 @@
-const socket = io() 
-
 //elements
 const $messageForm = document.querySelector("#message-form")
 const $messageFormInput = $messageForm.querySelector('input')
@@ -8,6 +6,8 @@ const $messages = document.querySelector('#messages')
 
 //templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
+const messageTemplateMe = document.querySelector('#message-template-me').innerHTML
+ 
 
 const availableCommands =  [["what","name"], 
                             ["what", "time"],
@@ -27,6 +27,7 @@ $messageFormButton.addEventListener('click', async function(e){
 async function sendMessageToServer(){
     var data = $messageFormInput.value
     var filteredInput = filterUserInput(data)
+    setMessageText(data, messageTemplateMe)
     console.log(filteredInput)
     if(!(filteredInput == "Bad input")){
         console.log(data)
@@ -46,14 +47,14 @@ async function sendMessageToServer(){
             console.log("in try")
             console.log(answer.response.message)
             responseToShow = processResponse(answer.response)
-            setMessageText(responseToShow)
+            setMessageText(responseToShow, messageTemplate)
         
         }catch(e){
             console.log("not send")
             console.log(e)
         }
     }else{
-        setMessageText("Bad input, can not process this message")
+        setMessageText("Bad input, can not process this message", messageTemplate)
     }
     
     
@@ -96,12 +97,16 @@ function filterUserInput(input){
     }
 }
 
-function setMessageText(messageBody){
+function setMessageText(messageBody, template){
     var html = ""
-    html = Mustache.render(messageTemplate, {
-        message: messageBody,
-        // createdAt: moment(message.createdAt).format('k:mm a')
-    })
+    if (messageBody.includes("tr")){
+        html = messageBody
+    }else{
+        html = Mustache.render(template, {
+            message: messageBody
+        })
+    }
+    
     $messages.insertAdjacentHTML('beforeend', html)
     $messageFormInput.value = ''
     $messageFormInput.focus()
@@ -112,56 +117,26 @@ function processResponse(resObj){
     if(resObj.messageType == "text"){
         return resObj.message
     }else if(resObj.messageType == "time"){
-        return "It is currently " +moment(resObj.message).format('k:mm a, MMMM Do YYYY')
+        return "It is currently " + moment(resObj.message).format('k:mm a, MMMM Do YYYY')
     }else if(resObj.messageType == "table"){
-        return "not supported yet"
+        dataToProcess = resObj.message
+        return (createHTML(dataToProcess))
+       
     }else{
         return "not supported message type"
     }
 }
 
-// socket.on('message', (message) => {
-//     console.log(message)
-//     var html = ""
-//     switch(message.messageType){
-//         case "text":
-//             html = Mustache.render(messageTemplate, {
-//                 message: message.text,
-//                 createdAt: moment(message.createdAt).format('k:mm a')
-//             })
-//             break;
-//         case "time":
-//             html =  Mustache.render(messageTemplate, {
-//                 message: "It is currently " +moment(message.text).format('k:mm a, MMMM Do YYYY'),
-//                 createdAt: moment(message.createdAt).format('k:mm a')
-//             })  
-//             break;
-
-//         case "help":
-//             html = Mustache.render(messageTemplate, {
-//                 message: message.text,
-//                 createdAt: moment(message.createdAt).format('k:mm a')
-//             })
-//             break;
-//         default:
-//             html = ""
-//     }    
-//     $messages.insertAdjacentHTML('beforeend', html)
-// })
-
-// $messageForm.addEventListener('submit', (e) => {
-//     e.preventDefault()
-
-//     $messageFormButton.setAttribute('disabled', 'disabled')
-//     const message = e.target.elements.message.value
-
-//     socket.emit('sendMessage', message, (message, answer) => {
-//         $messageFormButton.removeAttribute('disabled')
-//         $messageFormInput.value = ''
-//         $messageFormInput.focus()
-
-//         console.log('The message was delivered!', message)
-        
-//     })
-// })
-
+function createHTML(data){
+    finalString = "<div class='message'><table id='history-table'>"
+    finalString += "<tr><td>Date</td><td>Course</td></tr>"
+    data.forEach(record => {
+        toAppend = "<tr><td>" + record[0] + "</td>"
+        toAppend += "<td>" + record[2] + "</td></tr>"
+        finalString += toAppend
+        toAppend = ""
+    })
+    finalString += "</table></div>"
+    console.log(finalString)
+    return finalString
+}
