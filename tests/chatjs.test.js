@@ -61,9 +61,9 @@ describe('Behavior of parseFileData function', () => {
 
 
 describe('Behavior of readFromHistFile function', () => {
-    var endofLine = os.EOL
-    var expectedDataSet = "24.04.2022|EUR|24,320"+endofLine+
-        "25.04.2022|EUR|24,420"+endofLine
+    // var endofLine = os.EOL
+    var expectedDataSet = "24.04.2022|EUR|24,320\r\n\
+25.04.2022|EUR|24,420\r\n"
 
     test('Testing readFromHistFile', () => {
         expect(scriptjs.readFromHistFile('./tests/history.txt')).to.deep.equal(expectedDataSet)
@@ -116,8 +116,18 @@ describe('Behavior of processMessage function', () => {
     
 })
 
-// describe('Behavior of controlCourse', () => {
-//     test('Testing controlCourse function controlCourse', () => {
-//         expect(scriptjs.controlCourse()).to.be.a('string')
-//     })
-// })
+describe('Behavior of getURL function', () => {
+    var urlToTest = "https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt;jsessionid=5C6EEEF22D806ED9931DC1DA74C535DD?date="
+
+    test('Testing getURL', () => {
+        expect(scriptjs.getURL(urlToTest, 2022, 3, 29)).to.be.equal("https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt;jsessionid=5C6EEEF22D806ED9931DC1DA74C535DD?date=29.03.2022")
+    })
+})
+
+describe('Behavior of createURL function', () => {
+    var urlToTest = "https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt;jsessionid=5C6EEEF22D806ED9931DC1DA74C535DD?date="
+
+    test('Testing createURL', () => {
+        expect(scriptjs.createURL(urlToTest)).to.be.a('string')
+    })
+})
