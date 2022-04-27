@@ -61,9 +61,8 @@ describe('Behavior of parseFileData function', () => {
 
 
 describe('Behavior of readFromHistFile function', () => {
-    // var endofLine = os.EOL
-    var expectedDataSet = "24.04.2022|EUR|24,320\r\n\
-25.04.2022|EUR|24,420\r\n"
+    var endofLine = os.EOL
+    var expectedDataSet = "24.04.2022|EUR|24,320"+endofLine+"25.04.2022|EUR|24,420"+endofLine
 
     test('Testing readFromHistFile', () => {
         expect(scriptjs.readFromHistFile('./tests/history.txt')).to.deep.equal(expectedDataSet)
