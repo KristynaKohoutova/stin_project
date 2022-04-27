@@ -1,19 +1,6 @@
-// const request = require('supertest')
-// const express = require('express')
 const { expect } = require("chai")
 const scriptjs = require("../src/utils/functions")
-
-// const app = new express()
-// app.use('/', router)
-
-// describe('Behavior of Post test', () => {
-//     test('Should return ok..', async() => {       
-
-//         const res = await request(app).post('/').send({"data": "whatname"})
-//         expect(res.statusCode).toBe(200)
-        
-//     })
-// })
+var os = require('os')
 
 
 test('Testing file download', () => {
@@ -64,14 +51,16 @@ describe('Behavior of parseFileData function', () => {
 })
 
 
-// describe('Behavior of readFromHistFile function', () => {
-//     var expectedDataSet = "24.04.2022|EUR|24,320\r\n\
-// 25.04.2022|EUR|24,420\r\n"
+describe('Behavior of readFromHistFile function', () => {
+    var endofLine = os.EOL
+    var expectedDataSet = "24.04.2022|EUR|24,320"+endofLine+
+        "25.04.2022|EUR|24,420"+endofLine
 
-//     test('Testing readFromHistFile', () => {
-//         expect(scriptjs.readFromHistFile('./tests/history.txt')).to.deep.equal(expectedDataSet)
-//     })
-// })
+    test('Testing readFromHistFile', () => {
+        expect(scriptjs.readFromHistFile('./tests/history.txt')).to.deep.equal(expectedDataSet)
+    })
+})
+
 
 
 describe('Behavior of parseHistFileData function', () => {
