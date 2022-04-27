@@ -43,17 +43,7 @@ function processMessage(req){
     return [messageToAnswer, messageType]
 }
 
-function controlCourse(){
-    dowloadFile()
-    var fromDFile = readFromDownloadedFile("EUR", "./src/downloadedFile.txt")  
-    var histData = parseHistFileData(readFromHistFile("./src/history.txt"))
-    var histDate = histData[histData.length-1][0]
-    var histCourse = histData[histData.length-1][2]
-    if(histDate != fromDFile[0] && histCourse != fromDFile[1]){
-        writeToFile([fromDFile[0], "EUR" ,fromDFile[1]], "./src/history.txt")
-    }
-    return "ok"
-}
+
 
 function dowloadFile(){
     const file = fs.createWriteStream("./src/downloadedFile.txt")
@@ -83,10 +73,11 @@ function getURL(urlAdress){
 
 function readFromDownloadedFile(cName, location){
     var toReturn = ["nothing"]
-    var readData = fs.readFileSync(location, 'utf-8', (err, data) => {
-        if(err){
-            console.error(err); return err}
-    })
+    try {
+        var readData = fs.readFileSync(location, 'utf-8', (err, data) => {})
+    }catch(err){
+            return ["bad file"]
+        }
     var parsedData = parseFileData(readData)
     for(i = 0; i < parsedData[1].length; i++){
         if(parsedData[1][i].includes(cName)){
@@ -136,5 +127,5 @@ function parseFileData(data){
 }
 
 module.exports = {
-     parseFileData, parseHistFileData, writeToFile, readFromHistFile, readFromDownloadedFile, dowloadFile, processMessage, controlCourse
+     parseFileData, parseHistFileData, writeToFile, readFromHistFile, readFromDownloadedFile, dowloadFile, processMessage
 } 

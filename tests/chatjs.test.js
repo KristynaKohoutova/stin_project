@@ -18,9 +18,15 @@ describe('Behavior of readFromDownloadedFile function', () => {
     test('Testing readFromDownloadedFile with nothing', () => {
         expect(scriptjs.readFromDownloadedFile("", './tests/downloadedFile.txt')).to.deep.equal(["nothing"])
     })
-    // test('Testing readFromDownloadedFile with wrong path', () => {
-    //     expect(scriptjs.readFromDownloadedFile("", './tests/downloadedFilee.txt')).to.throw(new Error())
-    // })
+    test('Testing readFromDownloadedFile with wrong path', () => {
+        expect(scriptjs.readFromDownloadedFile("", './tests/downloadedFilee.txt')).to.deep.equal(["bad file"])
+    })
+    test('Testing readFromDownloadedFile with wrong path', () => {
+        expect(scriptjs.readFromDownloadedFile("EUR", './tests/downloadedFilee.txt')).to.deep.equal(["bad file"])
+    })
+    test('Testing readFromDownloadedFile with wrong path', () => {
+        expect(scriptjs.readFromDownloadedFile("eur", './tests/downloadedFilee.txt')).to.deep.equal(["bad file"])
+    })
 })
 
 
@@ -107,10 +113,11 @@ describe('Behavior of processMessage function', () => {
     test('Testing processMessage with help', () => {
         expect(scriptjs.processMessage("help")).to.deep.equal(["Available commands: what name, what time, what course EUR, what history EUR and help", "text"])
     })
+    
 })
 
-describe('Behavior of controlCourse', () => {
-    test('Testing controlCourse function controlCourse', () => {
-        expect(scriptjs.controlCourse()).to.be.a('string')
-    })
-})
+// describe('Behavior of controlCourse', () => {
+//     test('Testing controlCourse function controlCourse', () => {
+//         expect(scriptjs.controlCourse()).to.be.a('string')
+//     })
+// })
