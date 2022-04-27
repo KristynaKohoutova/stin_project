@@ -1,7 +1,6 @@
 const path = require('path')
 const https = require('https')
 const fs = require('fs')
-const express = require('express')
 
 const striptags = require('striptags')
 var messageType = "text"
@@ -44,25 +43,21 @@ function processMessage(req){
 }
 
 
-
 function dowloadFile(){
     const file = fs.createWriteStream("./src/downloadedFile.txt")
-    dataUrl = getURL("https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date=")
+    dataUrl = createURL("https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date=")
     const request = https.get(dataUrl, 
         function(response){
-            response.pipe(file)
-            file.on("finish", () => {
-                file.close()
-            })
+            // response.pipe(file)
+            // file.on("finish", () => {
+            //     file.close()
+            // })
         })
         return true
 }
 
-function getURL(urlAdress){
-    var d = new Date()
-    var year = d.getFullYear()
-    var month = d.getMonth() + 1
-    var day = d.getDate()
+
+function getURL(urlAdress, year, month, day){    
     var finalDate = urlAdress
     finalDate += (day < 10) ? "0" + day.toString() + ".": day.toString() + "."
     finalDate += (month < 10) ? "0" + month.toString() + "." : month.toString() + "."
@@ -71,13 +66,21 @@ function getURL(urlAdress){
     return finalDate
 }
 
+function createURL(urlAdress){
+    var d = new Date()
+    var year = d.getFullYear()
+    var month = d.getMonth() + 1
+    var day = d.getDate()
+    return getURL(urlAdress, year, month, day)
+}
+
 function readFromDownloadedFile(cName, location){
     var toReturn = ["nothing"]
     try {
         var readData = fs.readFileSync(location, 'utf-8', (err, data) => {})
     }catch(err){
-            return ["bad file"]
-        }
+        return ["bad file"]
+    }
     var parsedData = parseFileData(readData)
     for(i = 0; i < parsedData[1].length; i++){
         if(parsedData[1][i].includes(cName)){
@@ -127,5 +130,5 @@ function parseFileData(data){
 }
 
 module.exports = {
-     parseFileData, parseHistFileData, writeToFile, readFromHistFile, readFromDownloadedFile, dowloadFile, processMessage
+     parseFileData, parseHistFileData, writeToFile, readFromHistFile, readFromDownloadedFile, dowloadFile, processMessage, createURL, getURL
 } 
