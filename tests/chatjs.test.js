@@ -18,6 +18,9 @@ describe('Behavior of readFromDownloadedFile function', () => {
     test('Testing readFromDownloadedFile with nothing', () => {
         expect(scriptjs.readFromDownloadedFile("", './tests/downloadedFile.txt')).to.deep.equal(["nothing"])
     })
+    // test('Testing readFromDownloadedFile with wrong path', () => {
+    //     expect(scriptjs.readFromDownloadedFile("", './tests/downloadedFilee.txt')).to.throw(new Error())
+    // })
 })
 
 
@@ -87,21 +90,27 @@ describe('Behavior of writeToFile function', () => {
 
 describe('Behavior of processMessage function', () => {
     test('Testing processMessage with whatname', () => {
-        expect(scriptjs.processMessage("whatname")).to.deep.equal("My name is Bot007")
+        expect(scriptjs.processMessage("whatname")).to.deep.equal(["My name is Bot007", "text"])
     })
     test('Testing processMessage with neco', () => {
-        expect(scriptjs.processMessage("neco")).to.deep.equal("Not supported")
+        expect(scriptjs.processMessage("neco")).to.deep.equal(["Not supported", "text"])
     })
     test('Testing processMessage with whattime', () => {
-        expect(scriptjs.processMessage("whattime")).to.be.a('number')
+        expect(scriptjs.processMessage("whattime")).to.be.an('array')
     })
     test('Testing processMessage with whatcourseeur', () => {
-        expect(scriptjs.processMessage("whatcourseeur")).to.be.a('string')
+        expect(scriptjs.processMessage("whatcourseeur")).to.be.an('array')
     })
     test('Testing processMessage with whathistoryeur', () => {
         expect(scriptjs.processMessage("whathistoryeur")).to.be.an('array')
     })
     test('Testing processMessage with help', () => {
-        expect(scriptjs.processMessage("help")).to.be.equal("Available commands: what name, what time, what course EUR, what history EUR and help")
+        expect(scriptjs.processMessage("help")).to.deep.equal(["Available commands: what name, what time, what course EUR, what history EUR and help", "text"])
+    })
+})
+
+describe('Behavior of controlCourse', () => {
+    test('Testing controlCourse function controlCourse', () => {
+        expect(scriptjs.controlCourse()).to.be.a('string')
     })
 })

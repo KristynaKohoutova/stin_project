@@ -4,7 +4,7 @@ const fs = require('fs')
 const express = require('express')
 
 const api = require('./routes/api')
-
+const scriptjs = require("../src/utils/functions")
 const CronJob = require('cron').CronJob
 
 
@@ -23,8 +23,8 @@ app.use("/", api)
 
 
 
-var job = new CronJob('0 */5 13-15 * * 1-5', function(){
-    controlCourse()   
+var job = new CronJob('0 */5 13-16 * * 1-5', function(){
+    scriptjs.controlCourse()   
 })
 job.start()
 
