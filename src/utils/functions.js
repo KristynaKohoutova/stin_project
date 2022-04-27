@@ -1,7 +1,6 @@
 const path = require('path')
 const https = require('https')
 const fs = require('fs')
-const express = require('express')
 
 const striptags = require('striptags')
 var messageType = "text"
