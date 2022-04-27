@@ -14,6 +14,7 @@ function processMessage(req){
         case "whatname":
             messageToAnswer = "My name is Bot007"
             readFromDownloadedFile("EUR", "./src/downloadedFile.txt")  
+            messageType = "text"
             break;
         case "whattime":
             const time =  new Date().getTime()
@@ -22,12 +23,14 @@ function processMessage(req){
             break;
         case "help":
             messageToAnswer = "Available commands: what name, what time, what course EUR, what history EUR and help"
+            messageType = "text"
             break;
         case "whatcourseeur":
             var data = parseHistFileData(readFromHistFile("./src/history.txt"))
             console.log(data)
             var parsedData = data[data.length-1]
             messageToAnswer = parsedData[1] + " " + parsedData[2] + " " + parsedData[0]
+            messageType = "text"
             break;
         case "whathistoryeur":
             var data = parseHistFileData(readFromHistFile("./src/history.txt"))
@@ -37,19 +40,10 @@ function processMessage(req){
         default: 
             messageToAnswer = "Not supported"
     }
-    return messageToAnswer 
+    return [messageToAnswer, messageType]
 }
 
-function controlCourse(){
-    dowloadFile()
-    var fromDFile = readFromDownloadedFile("EUR", "./src/downloadedFile.txt")  
-    var histData = parseHistFileData(readFromHistFile("./src/history.txt"))
-    var histDate = histData[histData.length-1][0]
-    var histCourse = histData[histData.length-1][2]
-    if(histDate != fromDFile[0] && histCourse != fromDFile[1]){
-        writeToFile([fromDFile[0], "EUR" ,fromDFile[1]], "./src/history.txt")
-    }
-}
+
 
 function dowloadFile(){
     const file = fs.createWriteStream("./src/downloadedFile.txt")
@@ -79,12 +73,11 @@ function getURL(urlAdress){
 
 function readFromDownloadedFile(cName, location){
     var toReturn = ["nothing"]
-    var readData = fs.readFileSync(location, 'utf-8', (err, data) => {
-        if(err){
-            console.error(err)
-            return
+    try {
+        var readData = fs.readFileSync(location, 'utf-8', (err, data) => {})
+    }catch(err){
+            return ["bad file"]
         }
-    })
     var parsedData = parseFileData(readData)
     for(i = 0; i < parsedData[1].length; i++){
         if(parsedData[1][i].includes(cName)){
