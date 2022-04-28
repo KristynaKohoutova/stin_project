@@ -91,7 +91,6 @@ describe('Behavior of writeToFile function', () => {
     })
 })
 
-
 describe('Behavior of processMessage function', () => {
     test('Testing processMessage with whatname', () => {
         expect(scriptjs.processMessage("whatname")).to.deep.equal(["My name is Bot007", "text"])
