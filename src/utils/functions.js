@@ -63,6 +63,9 @@ function dowloadFile(){
 
 function checkIfBuy(data){
     var index = data.length
+    if(index < 3){
+        return "Can not recommend, not enough data"
+    }
     var valuesArray = [parseFloat((data[index-3][2]).replace(",", ".")),
      parseFloat((data[index-2][2]).replace(",", ".")),
      parseFloat((data[index-1][2]).replace(",", "."))]
