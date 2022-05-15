@@ -13,8 +13,7 @@ const availableCommands =  [["what","name"],
                             ["what", "time"],
                             ["what", "course", "eur"], 
                             ["what", "history", "eur"], 
-                            ["help"], 
-                            ["should", "buy", "eur"]
+                            ["help"]
                         ]
 
 const dangerousKeyWords = ["eval", "setTimeout", "setInterval", "new Function", "script"]

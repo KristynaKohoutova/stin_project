@@ -36,6 +36,11 @@ function processMessage(req){
             messageToAnswer = data
             messageType = "table"
             break;
+        case "shouldbuyeur":
+            var data = parseHistFileData(readFromHistFile("./src/history.txt"))
+            messageType = "text"
+            messageToAnswer = checkIfBuy(data)
+            break;
         default: 
             messageToAnswer = "Not supported"
     }
@@ -48,14 +53,89 @@ function dowloadFile(){
     dataUrl = createURL("https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt?date=")
     const request = https.get(dataUrl, 
         function(response){
-            // response.pipe(file)
-            // file.on("finish", () => {
-            //     file.close()
-            // })
+            response.pipe(file)
+            file.on("finish", () => {
+                file.close()
+            })
         })
         return true
 }
 
+function checkIfBuy(data){
+    var index = data.length
+    var valuesArray = [parseFloat((data[index-3][2]).replace(",", ".")),
+     parseFloat((data[index-2][2]).replace(",", ".")),
+     parseFloat((data[index-1][2]).replace(",", "."))]
+
+    console.log("valuesArray")
+    console.log(valuesArray)
+    if(isLowering(valuesArray)){
+        return "You should buy EUR because the price is lowering for last three days"
+    }else{
+        var result = isLessThanTenPercent(valuesArray)
+        console.log(result)
+        if(result[0]){
+            return "You could buy EUR, because the difference of the price is not greater than 10%, the average is " 
+            + String(parseFloat(result[1]).toFixed(3)) + ", the difference less than 10% by value "  + String(Math.abs(parseFloat(result[2]).toFixed(3)))  
+        }else{
+            return "You should NOT buy EUR, because the difference of the price is greater than 10%, the average is " 
+            + String(result[1]) + ", the difference is greater than 10% by value "  + String(result[2]) 
+        }
+    }
+}
+
+function isLowering(valuesArray){
+    if(valuesArray[2] < valuesArray[1] && valuesArray[1] < valuesArray[0]){
+        return true
+    }
+    return false
+}
+
+function isLessThanTenPercent(valuesArray){
+    var isLess = true
+    var sum = sumArray(valuesArray)
+    var avg = average(sum, 3)
+    var tenPrcnt = tenPercent(avg)
+    var [fAndS, diff1] = returnDifference(valuesArray[0], valuesArray[1], tenPrcnt)
+    var [sAndT, diff2] = returnDifference(valuesArray[1], valuesArray[2], tenPrcnt)
+    var diff = 0
+    console.log(diff1)
+    if(fAndS == false || sAndT == false){
+        diff = Math.max(parseFloat(diff1), parseFloat(diff2))
+        isLess = false
+    }else{
+        diff = Math.max(parseFloat(diff1), parseFloat(diff2))
+    }
+    console.log(sum)
+    console.log(diff)
+    return [isLess, avg, diff]
+}
+
+function sumArray(values){
+    var sumResult = 0
+    values.forEach(value => {
+        sumResult += parseFloat(value)
+    });
+    return sumResult
+}
+
+function average(sum, numOfElements){
+    return sum / numOfElements
+}
+
+function tenPercent(averageValue){
+    return parseFloat(averageValue / 10)
+}
+
+function returnDifference(val1, val2, tenPrcnt){
+    var difference = val2 - val1
+    if(difference <= tenPrcnt && difference > -tenPrcnt){
+        return [true, (Math.abs(difference) - tenPrcnt)]
+    }else{
+        return [false, (Math.abs(difference) - tenPrcnt)]
+    }
+        
+}
 
 function getURL(urlAdress, year, month, day){    
     var finalDate = urlAdress
@@ -130,5 +210,8 @@ function parseFileData(data){
 }
 
 module.exports = {
-     parseFileData, parseHistFileData, writeToFile, readFromHistFile, readFromDownloadedFile, dowloadFile, processMessage, createURL, getURL
+     parseFileData, parseHistFileData, writeToFile, readFromHistFile,
+     readFromDownloadedFile, dowloadFile, processMessage, createURL,
+     getURL, isLowering, sumArray, tenPercent, average, returnDifference, 
+     isLessThanTenPercent, checkIfBuy
 } 
