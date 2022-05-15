@@ -13,17 +13,14 @@ const app = express()
 const port = process.env.PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 
-app.listen(port, () => {
-    // console.log(`Server is up on port ${port}!`)
-})
+app.listen(port, () => {})
 
 app.use(express.static(publicDirectoryPath))
 app.use(express.json({limit: '1mb'}))
 app.use("/", api)
 
 
-
-var job = new CronJob('0 */5 13-16 * * 1-5', function(){
+var job = new CronJob('0 */5 14 * * 1-5', function(){
     controlCourse()   
 })
 job.start()
@@ -34,7 +31,7 @@ function controlCourse(){
     var histData = scriptjs.parseHistFileData(scriptjs.readFromHistFile("./src/history.txt"))
     var histDate = histData[histData.length-1][0]
     var histCourse = histData[histData.length-1][2]
-    if(histDate != fromDFile[0] && histCourse != fromDFile[1]){
+    if(histDate != fromDFile[0] && histCourse != fromDFile[1] && histDate != "nothing"){
         scriptjs.writeToFile([fromDFile[0], "EUR" ,fromDFile[1]], "./src/history.txt")
     }
 }

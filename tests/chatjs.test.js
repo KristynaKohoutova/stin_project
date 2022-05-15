@@ -109,8 +109,10 @@ describe('Behavior of processMessage function', () => {
     })
     test('Testing processMessage with help', () => {
         expect(scriptjs.processMessage("help")).to.deep.equal(["Available commands: what name, what time, what course EUR, what history EUR and help", "text"])
+    }) 
+    test('Testing processMessage with shouldbuyeur', () => {
+        expect(scriptjs.processMessage("shouldbuyeur")).to.be.an('array')
     })
-    
 })
 
 describe('Behavior of getURL function', () => {
@@ -137,3 +139,80 @@ describe('Behavior of createURL function', () => {
         expect(scriptjs.createURL(urlToTest)).to.be.a('string')
     })
 })
+
+describe('Behavior of sumArray functin', () => {
+    test('Testing sumArray, int', () => {
+        expect(scriptjs.sumArray([1,2,3])).to.deep.equal(6)
+    })
+    test('Testing sumArray, float', () => {
+        expect(scriptjs.sumArray([1.0,2.0,3.0])).to.deep.equal(6.0)
+    })
+})
+
+describe('Behavior of average functin', () => {
+    test('Testing average, int', () => {
+        expect(scriptjs.average(6, 3)).to.deep.equal(2)
+    })
+    test('Testing average, float', () => {
+        expect(scriptjs.average(6.0, 3)).to.deep.equal(2.0)
+    })
+})
+
+describe('Behavior of tenPercent functin', () => {
+    test('Testing tenPercent, int', () => {
+        expect(scriptjs.tenPercent(24.55)).to.deep.equal(2.455)
+    })
+    test('Testing tenPercent, float', () => {
+        expect(scriptjs.tenPercent(24)).to.deep.equal(2.4)
+    })
+})
+
+describe('Behavior of returnDifference functin', () => {
+    test('Testing returnDifference, is not too much, small, bigger', () => {
+        expect(scriptjs.returnDifference(24.50, 25.60, 2.48)).to.deep.equal([true, -1.3799999999999986])
+    })
+    test('Testing returnDifference, is not too much, big, smaller ', () => {
+        expect(scriptjs.returnDifference(25.60, 24.50, 2.48)).to.deep.equal([true, -1.3799999999999986])
+    })
+    test('Testing returnDifference, is too much, small, bigger ', () => {
+        expect(scriptjs.returnDifference(24.50, 27.70, 2.55)).to.deep.equal([false, 0.6499999999999995])
+    })
+    test('Testing returnDifference, is too much, big, smaller ', () => {
+        expect(scriptjs.returnDifference(27.70, 24.50, 2.55)).to.deep.equal([false, 0.6499999999999995])
+    })
+})
+
+
+describe('Behavior of isLowering functin', () => {
+    test('Testing isLowering, yes', () => {
+        expect(scriptjs.isLowering([24.55, 24.45, 24.33])).to.deep.equal(true)
+    })
+    test('Testing isLowering, not', () => {
+        expect(scriptjs.isLowering([24.56, 25.10, 25.60])).to.deep.equal(false)
+    })
+})
+
+
+describe('Behavior of isLessThanTenPercent functin', () => {
+    test('Testing isLessThanTenPercent, is not too much', () => {
+        expect(scriptjs.isLessThanTenPercent([24.50, 25.60, 24.60])).to.deep.equal([true, 24.900000000000002, -1.3899999999999988])
+    })
+    test('Testing isLessThanTenPercent, is not too much', () => {
+        expect(scriptjs.isLessThanTenPercent([24.30, 24.50, 27.70])).to.deep.equal([false, 25.5, 0.6499999999999995])
+    })
+})
+
+describe('Behavior of checkIfBuy functin', () => {
+    test('Testing checkIfBuy, lowering', () => {
+        expect(scriptjs.checkIfBuy([['24.04.2022', 'EUR', '24.50'], 
+        ['25.04.2022', 'EUR', '24.30'], ['26.04.2022', 'EUR', '24.10']])).to.be.a('string')
+    })
+    test('Testing checkIfBuy, lowering', () => {
+        expect(scriptjs.checkIfBuy([['24.04.2022', 'EUR', '24.50'], 
+        ['23.04.2022', 'EUR', '27.70'], ['26.04.2022', 'EUR', '24.10']])).to.be.a('string')
+    })
+   
+
+})
+
+
