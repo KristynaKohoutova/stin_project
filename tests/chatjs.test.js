@@ -207,9 +207,17 @@ describe('Behavior of checkIfBuy functin', () => {
         expect(scriptjs.checkIfBuy([['24.04.2022', 'EUR', '24.50'], 
         ['25.04.2022', 'EUR', '24.30'], ['26.04.2022', 'EUR', '24.10']])).to.be.a('string')
     })
-    test('Testing checkIfBuy, lowering', () => {
+    test('Testing checkIfBuy, not buy, more than 10%', () => {
         expect(scriptjs.checkIfBuy([['24.04.2022', 'EUR', '24.50'], 
-        ['23.04.2022', 'EUR', '27.70'], ['26.04.2022', 'EUR', '24.10']])).to.be.a('string')
+        ['25.04.2022', 'EUR', '27.70'], ['26.04.2022', 'EUR', '24.10']])).to.be.a('string')
+    })
+    test('Testing checkIfBuy, not enough data', () => {
+        expect(scriptjs.checkIfBuy([['24.04.2022', 'EUR', '24.50'], 
+        ['25.04.2022', 'EUR', '27.70']])).to.be.equal("Can not recommend, not enough data")
+    })
+    test('Testing checkIfBuy, could buy, less than 10%', () => {
+        expect(scriptjs.checkIfBuy([['24.04.2022', 'EUR', '24.50'], 
+        ['25.04.2022', 'EUR', '24.60'], ['26.04.2022', 'EUR', '24.10']])).to.be.a('string')
     })
    
 
