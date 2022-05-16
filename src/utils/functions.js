@@ -21,7 +21,7 @@ function processMessage(req){
             messageType = "time"
             break;
         case "help":
-            messageToAnswer = "Available commands: what name, what time, what course EUR, what history EUR and help"
+            messageToAnswer = "Available commands: what name, what time, what course EUR, what history EUR, should buy EUR and help"
             messageType = "text"
             break;
         case "whatcourseeur":
