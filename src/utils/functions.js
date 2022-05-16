@@ -76,7 +76,7 @@ function checkIfBuy(data){
         var sum = sumArray(valuesArray)
         var avg = average(sum, 3)
         var tenPrcnt = tenPercent(avg)
-        return "You should buy EUR because the price is lowering for last three days, average is : " + tenPrcnt
+        return "You should buy EUR because the price is lowering for last three days, average is: " + avg
     }else{
         var result = isLessThanTenPercent(valuesArray)
         console.log(result)
