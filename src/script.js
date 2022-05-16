@@ -21,6 +21,7 @@ app.use("/", api)
 
 
 var job = new CronJob('0 */1 13-15 * * 1-5', function(){
+    console.log('ahoj')
     controlCourse()   
 })
 job.start()
