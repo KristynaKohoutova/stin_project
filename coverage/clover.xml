@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1652645442751" clover="3.2.0">
-  <project timestamp="1652645442751" name="All files">
+<coverage generated="1652693702784" clover="3.2.0">
+  <project timestamp="1652693702784" name="All files">
     <metrics statements="130" coveredstatements="127" conditionals="33" coveredconditionals="33" methods="20" coveredmethods="17" elements="183" coveredelements="177" complexity="0" loc="130" ncloc="130" packages="1" files="1" classes="1"/>
     <file name="functions.js" path="C:\Users\User\Documents\stin_project\src\utils\functions.js">
       <metrics statements="130" coveredstatements="127" conditionals="33" coveredconditionals="33" methods="20" coveredmethods="17"/>
@@ -119,9 +119,9 @@
       <line num="191" count="5" type="stmt"/>
       <line num="192" count="5" type="stmt"/>
       <line num="193" count="5" type="stmt"/>
-      <line num="194" count="16" type="stmt"/>
-      <line num="195" count="16" type="cond" truecount="2" falsecount="0"/>
-      <line num="196" count="11" type="stmt"/>
+      <line num="194" count="49" type="stmt"/>
+      <line num="195" count="49" type="cond" truecount="2" falsecount="0"/>
+      <line num="196" count="44" type="stmt"/>
       <line num="198" count="5" type="stmt"/>
       <line num="199" count="5" type="stmt"/>
       <line num="200" count="5" type="stmt"/>

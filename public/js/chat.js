@@ -141,6 +141,3 @@ function createHTML(data){
     console.log(finalString)
     return finalString
 }
-
-
-module.exports = {createHTML}

@@ -108,7 +108,7 @@ describe('Behavior of processMessage function', () => {
         expect(scriptjs.processMessage("whathistoryeur")).to.be.an('array')
     })
     test('Testing processMessage with help', () => {
-        expect(scriptjs.processMessage("help")).to.deep.equal(["Available commands: what name, what time, what course EUR, what history EUR and help", "text"])
+        expect(scriptjs.processMessage("help")).to.deep.equal(["Available commands: what name, what time, what course EUR, what history EUR, should buy EUR and help", "text"])
     }) 
     test('Testing processMessage with shouldbuyeur', () => {
         expect(scriptjs.processMessage("shouldbuyeur")).to.be.an('array')
