@@ -20,7 +20,8 @@ app.use(express.json({limit: '1mb'}))
 app.use("/", api)
 
 
-var job = new CronJob('0 */5 14 * * 1-5', function(){
+var job = new CronJob('0 */1 13-15 * * 1-5', function(){
+    console.log('ahoj')
     controlCourse()   
 })
 job.start()
